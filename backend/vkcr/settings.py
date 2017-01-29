@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'communities',
 ]
 
@@ -119,3 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+VK_COMMUNITY_START_ID = 1
+VK_COMMUNITY_STOP_ID = 138000000
