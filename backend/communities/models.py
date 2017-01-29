@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Max
+from django.conf import settings
 
 
 class VkCommunity(models.Model):
@@ -56,6 +57,8 @@ class VkRequestTask(models.Model):
     stop_vk_id = models.PositiveIntegerField(verbose_name=_('stop vk id'))
     type = models.CharField(choices=VK_REQUEST_TASK_TYPE_CHOICES, max_length=10)
 
+    is_done = models.BooleanField(verbose_name=_('is done'), default=False)
+
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
@@ -63,5 +66,15 @@ class VkRequestTask(models.Model):
         return _("VK Request Task %(type)s #%(id)d") % {'type': self.type, 'id': self.id }
 
     @classmethod
-    def get_next_task_start_id(cls):
-        return cls.objects.all().aggregate(Max('start_vk_id'))['start_vk_id__max'] or 1
+    def create_task(cls):
+        start = (cls.objects.all().aggregate(Max('stop_vk_id'))['stop_vk_id__max'] or 0) + 1
+        stop = start + int(settings.VK_COMMUNITY_STEP)
+        new_task = cls(start_vk_id=start, stop_vk_id=stop, type='ecmc')
+        new_task.save()
+        return new_task
+
+    def to_dict(self):
+        return {
+            'start': self.start_vk_id,
+            'stop': self.stop_vk_id
+        }
