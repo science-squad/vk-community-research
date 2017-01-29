@@ -16,6 +16,6 @@ class VkPersonAdmin(admin.ModelAdmin):
 
 @admin.register(VkRequestTask)
 class VkRequestTaskAdmin(admin.ModelAdmin):
-    list_display = ('id', '__str__', 'start_vk_id', 'stop_vk_id', 'type', 'created_at', 'updated_at')
-    readonly_fields = ('start_vk_id', 'stop_vk_id', 'type')
-    list_filter = ('type',)
+    list_display = ('id', '__str__', 'is_done', 'start_vk_id', 'stop_vk_id', 'type', 'created_at', 'updated_at')
+    readonly_fields = ('start_vk_id', 'stop_vk_id', 'type', 'is_done')
+    list_filter = ('type', 'is_done')

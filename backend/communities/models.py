@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Max
 from django.conf import settings
+import simplejson as json
 
 
 class VkCommunity(models.Model):
@@ -73,8 +74,34 @@ class VkRequestTask(models.Model):
         new_task.save()
         return new_task
 
+    @classmethod
+    def handle_task_results(cls, id, type, result):
+        task = cls.objects.get(id=id)
+        if task.type != type:
+            return False
+        if cls.handle_specific_task_type_result(type, result):
+            task.is_done = True
+            task.save()
+            return True
+        else:
+            return False
+
+    @classmethod
+    def handle_specific_task_type_result(cls, type, result):
+        if type != 'ecmc':
+            return False
+        # ] result is a JSON dictionary { gid: count_of_members, ... }
+        result = json.loads(result)
+        for gid in result:
+            # fail if id mismatch
+            c = VkCommunity(vk_id=gid, estimated_members_count=result[gid])
+            c.save()
+        return True
+
     def to_dict(self):
         return {
             'start': self.start_vk_id,
-            'stop': self.stop_vk_id
+            'stop': self.stop_vk_id,
+            'id': self.id,
+            'type': self.type
         }
