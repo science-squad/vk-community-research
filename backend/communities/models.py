@@ -5,8 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 class VkCommunity(models.Model):
 
     class Meta:
-        verbose_name = _('vk model')
-        verbose_name_plural = _('vk models')
+        verbose_name = _('vk community')
+        verbose_name_plural = _('vk communities')
 
     vk_id = models.PositiveIntegerField(verbose_name=_('vk id'))
     estimated_members_count = models.PositiveIntegerField(verbose_name=_('estimated members count'), null=True)
@@ -20,3 +20,14 @@ class VkCommunity(models.Model):
     def is_valid(self):
         return self.member_list_length == self.estimated_members_count
 
+
+class VkPerson(models.Model):
+
+    class Meta:
+        verbose_name = _('vk person')
+        verbose_name_plural = _('vk persons')
+
+    vk_id = models.PositiveIntegerField(verbose_name=_('vk id'))
+    first_name = models.CharField(verbose_name=_('first name'), max_length=255, blank=True, null=True)
+    last_name = models.CharField(verbose_name=_('last name'), max_length=255, blank=True, null=True)
+    sex = models.IntegerField(verbose_name=_('sex'), null=True)
