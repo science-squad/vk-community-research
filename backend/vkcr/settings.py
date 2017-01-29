@@ -25,7 +25,7 @@ SECRET_KEY = '6tic7qcz1y%g*ls$d_(cd1(d-nt5#o^av*p5!ifepo=n0d^arr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ('gbezyuk.ru',)
 
 
 # Application definition
