@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Max
 
 
 class VkCommunity(models.Model):
@@ -60,3 +61,7 @@ class VkRequestTask(models.Model):
 
     def __str__(self):
         return _("VK Request Task %(type)s #%(id)d") % {'type': self.type, 'id': self.id }
+
+    @classmethod
+    def get_next_task_start_id(cls):
+        return cls.objects.all().aggregate(Max('start_vk_id'))['start_vk_id__max'] or 1

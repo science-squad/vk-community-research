@@ -25,7 +25,10 @@ SECRET_KEY = '6tic7qcz1y%g*ls$d_(cd1(d-nt5#o^av*p5!ifepo=n0d^arr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ('gbezyuk.ru',)
+ALLOWED_HOSTS = (
+    'localhost',
+    'gbezyuk.ru',
+)
 
 
 # Application definition
@@ -124,3 +127,4 @@ STATIC_URL = '/static/'
 
 VK_COMMUNITY_START_ID = 1
 VK_COMMUNITY_STOP_ID = 138000000
+VK_COMMUNITY_STEP = 25
